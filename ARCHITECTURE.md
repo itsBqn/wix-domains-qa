@@ -58,8 +58,8 @@ You need an account-level API key. There is no screen.
 
 - Base URL: `https://www.wixapis.com/domain-search/v2/`
 - Headers `Authorization` + `wix-account-id`
-- `check-domain-availability?domain=google.com` -> `available: false` (confirmed)
-- Response fields `domain`, `available`, `premium`, `premiumType`
+- `check-domain-availability?domain=google.com` -> `availability.available: false` (confirmed)
+- The response fields are inside an `availability` object: `availability.domain`, `availability.available`, `availability.premium`, `availability.premiumType` (confirmed, and the docs agree)
 
 ## How the doors relate
 

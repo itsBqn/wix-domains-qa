@@ -8,7 +8,7 @@ Summary:
 | F2 | WHOIS: raw registrar data shows "error: __raw: undefined" for some registrars | Bug | Low | Medium |
 | F3 | Suggestions include famous brand names | Risk | Medium | Medium |
 | F4 | A 403 error is used as a normal answer | Observation | Low | Low |
-| F5 | The suggest-domains paging cursor is readable | Observation | Low | Low |
+| F5 | The public API doesn't match its docs | Bug or doc gap | Medium | High |
 
 ---
 
@@ -21,6 +21,8 @@ When I search for a taken name, the message shows no domain name. It shows:
 " is already registered. Explore some great alternatives below."
 The user typed no TLD, so the page checked `.com`. But the message does not say which domain is taken.
 The WHOIS page shows the name correctly ("google.com is registered.").
+
+Seen 3 times between 11:48 and 12:43 (screenshots in evidence/). After about 13:00 I could not reproduce it, logged in or in incognito: searching without a TLD now shows no message at all. Maybe an A/B test or a fix. I don't know which. Test SF-03 now guards the version with a TLD.
 
 **Steps to reproduce:**
 1. Open https://www.wix.com/domains
@@ -144,32 +146,37 @@ Response: 403
 
 ---
 
-## F5 - The suggest-domains paging cursor is readable
+## F5 - The public API doesn't match its docs
 
-**Type:** Observation
+**Type:** Bug or doc gap
 
 **What happens:**
-The "next" paging cursor in the suggest-domains response is base64 text. Decoded, it shows:
-- the suggestions already shown,
-- the next suggestions waiting,
-- `"engine": "Llm"`.
-
-The Business Name Generator response also had the same kind of cursor.
-
-Editing the cursor and sending it back was not tested.
+- `check-domain-availability` returns 200 with the full answer with no Authorization header, with a wrong key, and with no `wix-account-id`. The docs say this call requires an account-level API key.
+- The docs say a domain can be 3-63 characters. A 64-character domain gets 200 with a normal answer.
 
 **Steps to reproduce:**
-1. Open the browser DevTools, Network tab.
-2. Open https://www.wix.com/domains and search for `mybakery`.
-3. Find the suggest-domains response and copy the "next" cursor.
-4. Decode it from base64.
+1. Open PowerShell.
+2. Call `check-domain-availability` with no headers at all (command in Evidence below).
+3. Look at the status and the response.
 
-**Evidence:** The decoded cursor content, as described above.
+**Expected:** An auth error without a key (per the docs).
+**Actual:** 200 with the full answer.
 
-**Severity:** Low
-**Priority:** Low
+**Evidence:**
 
-**Why:** It shows internal details to anyone.
+I checked the no-key case myself in PowerShell, with no headers at all:
+
+```
+Invoke-RestMethod -Uri "https://www.wixapis.com/domain-search/v2/check-domain-availability?domain=google.com"
+-> {"availability":{"domain":"google.com","available":false,"premium":false,"premiumType":"UNKNOWN_PREMIUM_TYPE"}}
+```
+
+Tests API-05, API-06, API-07 and the 64-character E-02 case are marked xfail with these reasons.
+
+**Severity:** Medium
+**Priority:** High
+
+**Why:** Maybe the API is public on purpose (the storefront calls the same path without a key). Then the docs are wrong. Either way, the API and the docs don't agree. Priority is High because someone at Wix must decide quickly: fix the API or fix the docs.
 
 ---
 
