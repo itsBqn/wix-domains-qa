@@ -1,4 +1,4 @@
-Total time: Total time: about 2 hours 10 minutes from first to last commit, plus about 45 minutes the day before, exploring the web doors with DevTools and setting up the tools.
+Total time: about 2 hours 10 minutes from first to last commit, plus about 45 minutes the day before, exploring the web doors with DevTools and setting up the tools.
 
 # Wix Domains QA - Home Assignment
 

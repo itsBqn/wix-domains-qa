@@ -34,8 +34,8 @@ Seen 3 times between 11:48 and 12:43 (screenshots in evidence/). After about 13:
 **Actual:** The message starts with a space and has no domain name.
 
 **Evidence:**
-- `evidence/storefront-missing-name-mybakery.png`
-- `evidence/storefront-missing-name-google.png`
+- [storefront-missing-name-mybakery.png](evidence/storefront-missing-name-mybakery.png)
+- [storefront-missing-name-google.png](evidence/storefront-missing-name-google.png)
 
 **Severity:** Medium
 **Priority:** High
@@ -66,8 +66,8 @@ The rest of the page (Domain Information, Registrar) shows correctly.
 **Actual:** `error: __raw: undefined`
 
 **Evidence:**
-- `evidence/whois-raw-error-google.png`
-- `evidence/whois-raw-error-youtube.png`
+- [whois-raw-error-google.png](evidence/whois-raw-error-google.png)
+- [whois-raw-error-youtube.png](evidence/whois-raw-error-youtube.png)
 
 **Severity:** Low
 **Priority:** Medium
@@ -94,7 +94,7 @@ This is not a bug by itself. It needs a product/legal decision.
 4. Look at the suggested domains.
 
 **Evidence:**
-- `evidence/storefront-missing-name-google.png`
+- [storefront-missing-name-google.png](evidence/storefront-missing-name-google.png)
 
 **Severity:** Medium
 **Priority:** Medium
